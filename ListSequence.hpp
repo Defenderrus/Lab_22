@@ -9,8 +9,11 @@ using namespace std;
 
 template <typename T>
 class ListSequence: public Sequence<T> {
-    private:
+    protected:
         LinkedList<T> *list;
+        virtual ListSequence<T>* Mode() {
+            return this;
+        };
     public:
         // Создание объекта
         ListSequence();
@@ -83,28 +86,43 @@ Sequence<T>* ListSequence<T>::GetSubsequence(int startIndex, int endIndex) const
 // Операции
 template <typename T>
 Sequence<T>* ListSequence<T>::Append(T item) {
-    this->list->Append(item);
-    return this;
+    ListSequence<T> *newSequence = Mode();
+    newSequence->list->Append(item);
+    return newSequence;
 }
 
 template <typename T>
 Sequence<T>* ListSequence<T>::Prepend(T item) {
-    this->list->Prepend(item);
-    return this;
+    ListSequence<T> *newSequence = Mode();
+    newSequence->list->Prepend(item);
+    return newSequence;
 }
 
 template <typename T>
 Sequence<T>* ListSequence<T>::InsertAt(T item, int index) {
-    this->list->InsertAt(item, index);
-    return this;
+    ListSequence<T> *newSequence = Mode();
+    newSequence->list->InsertAt(item, index);
+    return newSequence;
 }
 
 template <typename T>
 Sequence<T>* ListSequence<T>::Concat(Sequence<T> *other) {
+    ListSequence<T> *newSequence = Mode();
     for (int i = 0; i < other->GetLength(); i++) {
-        this->Append(other->Get(i));
+        newSequence->Append(other->Get(i));
     }
-    return this;
+    return newSequence;
 }
+
+
+template <typename T>
+class ImmutableListSequence: public ListSequence<T> {
+    protected:
+        ListSequence<T>* Mode() override {
+            return new ListSequence<T>(*this->list);
+        }
+    public:
+        using ListSequence<T>::ListSequence;
+};
 
 #endif // LISTSEQUENCE_HPP

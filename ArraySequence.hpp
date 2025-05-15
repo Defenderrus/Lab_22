@@ -9,8 +9,11 @@ using namespace std;
 
 template <typename T>
 class ArraySequence: public Sequence<T> {
-    private:
+    protected:
         DynamicArray<T> *array;
+        virtual ArraySequence<T>* Mode() {
+            return this;
+        };
     public:
         // Создание объекта
         ArraySequence();
@@ -35,16 +38,13 @@ class ArraySequence: public Sequence<T> {
 
 // Создание объекта
 template <typename T>
-ArraySequence<T>::ArraySequence(): ArraySequence<T>::ArraySequence(0) {}
+ArraySequence<T>::ArraySequence() {
+    this->array = new DynamicArray<T>(0);
+}
 
 template <typename T>
 ArraySequence<T>::~ArraySequence() {
     delete this->array;
-}
-
-template <typename T>
-ArraySequence<T>::ArraySequence(int size) {
-    this->array = new DynamicArray<T>(size);
 }
 
 template <typename T>
@@ -93,34 +93,49 @@ Sequence<T>* ArraySequence<T>::GetSubsequence(int startIndex, int endIndex) cons
 // Операции
 template <typename T>
 Sequence<T>* ArraySequence<T>::Append(T item) {
-    this->array->Resize(this->array->GetSize()+1);
-    this->array->Set(this->array->GetSize()-1, item);
-    return this;
+    ArraySequence<T> *newSequence = Mode();
+    newSequence->array->Resize(newSequence->array->GetSize()+1);
+    newSequence->array->Set(newSequence->array->GetSize()-1, item);
+    return newSequence;
 }
 
 template <typename T>
 Sequence<T>* ArraySequence<T>::Prepend(T item) {
-    DynamicArray<T> *newArray = new DynamicArray<T>(this->array->GetSize()+1);
+    ArraySequence<T> *newSequence = Mode();
+    DynamicArray<T> *newArray = new DynamicArray<T>(newSequence->array->GetSize()+1);
     newArray->Set(0, item);
-    for (int i = 0; i < this->array->GetSize(); i++) {
-        newArray->Set(i+1, this->array->Get(i));
+    for (int i = 0; i < newSequence->array->GetSize(); i++) {
+        newArray->Set(i+1, newSequence->array->Get(i));
     }
-    this->array = newArray;
-    return this;
+    newSequence->array = newArray;
+    return newSequence;
 }
 
 template <typename T>
 Sequence<T>* ArraySequence<T>::InsertAt(T item, int index) {
-    this->array->Set(index, item);
-    return this;
+    ArraySequence<T> *newSequence = Mode();
+    newSequence->array->Set(index, item);
+    return newSequence;
 }
 
 template <typename T>
 Sequence<T>* ArraySequence<T>::Concat(Sequence<T> *other) {
+    ArraySequence<T> *newSequence = Mode();
     for (int i = 0; i < other->GetLength(); i++) {
-        this->Append(other->Get(i));
+        newSequence->Append(other->Get(i));
     }
-    return this;
+    return newSequence;
 }
+
+
+template <typename T>
+class ImmutableArraySequence: public ArraySequence<T> {
+    protected:
+        ArraySequence<T>* Mode() override {
+            return new ArraySequence<T>(*this->array);
+        }
+    public:
+        using ArraySequence<T>::ArraySequence;
+};
 
 #endif // ARRAYSEQUENCE_HPP
