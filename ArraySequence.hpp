@@ -1,7 +1,6 @@
 #ifndef ARRAYSEQUENCE_HPP
 #define ARRAYSEQUENCE_HPP
 
-#include <iostream>
 #include "Sequence.hpp"
 #include "DynamicArray.hpp"
 using namespace std;
@@ -18,7 +17,6 @@ class ArraySequence: public Sequence<T> {
         // Создание объекта
         ArraySequence();
         ~ArraySequence() override;
-        ArraySequence(int size);
         ArraySequence(T* items, int count);
         ArraySequence(const DynamicArray<T> &other);
         
@@ -80,7 +78,7 @@ T ArraySequence<T>::Get(int index) const {
 
 template <typename T>
 Sequence<T>* ArraySequence<T>::GetSubsequence(int startIndex, int endIndex) const {
-    if (endIndex >= this->array->GetSize() || startIndex < 0 || endIndex <= startIndex) {
+    if (endIndex >= this->array->GetSize() || startIndex < 0 || endIndex < startIndex) {
         throw out_of_range("The index is out of range!");
     }
     DynamicArray<T> *newArray = new DynamicArray<T>(endIndex-startIndex+1);
@@ -94,8 +92,12 @@ Sequence<T>* ArraySequence<T>::GetSubsequence(int startIndex, int endIndex) cons
 template <typename T>
 Sequence<T>* ArraySequence<T>::Append(T item) {
     ArraySequence<T> *newSequence = Mode();
-    newSequence->array->Resize(newSequence->array->GetSize()+1);
-    newSequence->array->Set(newSequence->array->GetSize()-1, item);
+    DynamicArray<T> *newArray = new DynamicArray<T>(newSequence->array->GetSize()+1);
+    newArray->Set(newSequence->array->GetSize(), item);
+    for (int i = 0; i < newSequence->array->GetSize(); i++) {
+        newArray->Set(i, newSequence->array->Get(i));
+    }
+    newSequence->array = newArray;
     return newSequence;
 }
 

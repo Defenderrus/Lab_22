@@ -1,7 +1,6 @@
 #ifndef SEQUENCE_HPP
 #define SEQUENCE_HPP
 
-#include <iostream>
 using namespace std;
 
 

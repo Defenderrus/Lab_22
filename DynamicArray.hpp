@@ -1,7 +1,6 @@
 #ifndef DYNAMICARRAY_HPP
 #define DYNAMICARRAY_HPP
 
-#include <iostream>
 using namespace std;
 
 

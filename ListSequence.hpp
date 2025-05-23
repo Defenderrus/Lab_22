@@ -1,7 +1,6 @@
 #ifndef LISTSEQUENCE_HPP
 #define LISTSEQUENCE_HPP
 
-#include <iostream>
 #include "Sequence.hpp"
 #include "LinkedList.hpp"
 using namespace std;

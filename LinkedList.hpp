@@ -1,7 +1,6 @@
 #ifndef LINKEDLIST_HPP
 #define LINKEDLIST_HPP
 
-#include <iostream>
 using namespace std;
 
 
@@ -115,7 +114,7 @@ T LinkedList<T>::Get(int index) const {
 
 template <typename T>
 LinkedList<T>* LinkedList<T>::GetSubList(int startIndex, int endIndex) const {
-    if (endIndex >= this->size || startIndex < 0 || endIndex <= startIndex) {
+    if (endIndex >= this->size || startIndex < 0 || endIndex < startIndex) {
         throw out_of_range("The index is out of range!");
     }
     LinkedList<T>* newList = new LinkedList<T>();
