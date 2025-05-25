@@ -18,8 +18,10 @@ class DynamicArray {
         DynamicArray(const DynamicArray<T> &dynamicArray);
 
         // Декомпозиция
-        T Get(int index) const;
         int GetSize() const;
+        T Get(int index) const;
+        T& operator[](int index);
+        const T& operator[](int index) const;
         
         // Операции
         void Set(int index, T value);
@@ -70,6 +72,11 @@ DynamicArray<T>::DynamicArray(const DynamicArray<T> &dynamicArray) {
 
 // Декомпозиция
 template <typename T>
+int DynamicArray<T>::GetSize() const {
+    return this->size;
+}
+
+template <typename T>
 T DynamicArray<T>::Get(int index) const {
     if (index >= this->size || index < 0) {
         throw out_of_range("The index is out of range!");
@@ -78,8 +85,19 @@ T DynamicArray<T>::Get(int index) const {
 }
 
 template <typename T>
-int DynamicArray<T>::GetSize() const {
-    return this->size;
+T& DynamicArray<T>::operator[](int index) {
+    if (index >= this->size || index < 0) {
+        throw out_of_range("The index is out of range!");
+    }
+    return data[index];
+}
+
+template <typename T>
+const T& DynamicArray<T>::operator[](int index) const {
+    if (index >= this->size || index < 0) {
+        throw out_of_range("The index is out of range!");
+    }
+    return data[index];
 }
 
 // Операции

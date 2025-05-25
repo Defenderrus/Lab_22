@@ -25,12 +25,16 @@ class ListSequence: public Sequence<T> {
         T GetFirst() const override;
         T GetLast() const override;
         T Get(int index) const override;
+        T& operator[](int index) override;
+        const T& operator[](int index) const override;
         Sequence<T>* GetSubsequence(int startIndex, int endIndex) const override;
 
         // Операции
         Sequence<T>* Append(T item) override;
         Sequence<T>* Prepend(T item) override;
+        Sequence<T>* Remove(int index) override;
         Sequence<T>* InsertAt(T item, int index) override;
+        Sequence<T>* PutAt(T item, int index) override;
         Sequence<T>* Concat(Sequence<T> *other) override;
 };
 
@@ -77,6 +81,22 @@ T ListSequence<T>::Get(int index) const {
 }
 
 template <typename T>
+T& ListSequence<T>::operator[](int index) {
+    if (index >= this->list->GetLength() || index < 0) {
+        throw out_of_range("The index is out of range!");
+    }
+    return (*this->list)[index];
+}
+
+template <typename T>
+const T& ListSequence<T>::operator[](int index) const {
+    if (index >= this->list->GetLength() || index < 0) {
+        throw out_of_range("The index is out of range!");
+    }
+    return (*this->list)[index];
+}
+
+template <typename T>
 Sequence<T>* ListSequence<T>::GetSubsequence(int startIndex, int endIndex) const {
     ListSequence<T> *newList = new ListSequence<T>(*this->list->GetSubList(startIndex, endIndex));
     return newList;
@@ -98,9 +118,23 @@ Sequence<T>* ListSequence<T>::Prepend(T item) {
 }
 
 template <typename T>
+Sequence<T>* ListSequence<T>::Remove(int index) {
+    ListSequence<T> *newSequence = Mode();
+    newSequence->list->Remove(index);
+    return newSequence;
+}
+
+template <typename T>
 Sequence<T>* ListSequence<T>::InsertAt(T item, int index) {
     ListSequence<T> *newSequence = Mode();
     newSequence->list->InsertAt(item, index);
+    return newSequence;
+}
+
+template <typename T>
+Sequence<T>* ListSequence<T>::PutAt(T item, int index) {
+    ListSequence<T> *newSequence = Mode();
+    newSequence->list->PutAt(item, index);
     return newSequence;
 }
 

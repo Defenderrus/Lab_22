@@ -34,12 +34,16 @@ class LinkedList {
         T GetFirst() const;
         T GetLast() const;
         T Get(int index) const;
+        T& operator[](int index);
+        const T& operator[](int index) const;
         LinkedList<T>* GetSubList(int startIndex, int endIndex) const;
 
         // Операции
         void Append(T item);
         void Prepend(T item);
+        void Remove(int index);
         void InsertAt(T item, int index);
+        void PutAt(T item, int index);
         LinkedList<T>* Concat(LinkedList<T> *other);
 };
 
@@ -113,6 +117,30 @@ T LinkedList<T>::Get(int index) const {
 }
 
 template <typename T>
+T& LinkedList<T>::operator[](int index) {
+    if (index >= this->size || index < 0) {
+        throw out_of_range("The index is out of range!");
+    }
+    List<T> *p = this->start;
+    for (int i = 0; i < index; i++) {
+        p = p->next;
+    }
+    return p->data;
+}
+
+template <typename T>
+const T& LinkedList<T>::operator[](int index) const {
+    if (index >= this->size || index < 0) {
+        throw out_of_range("The index is out of range!");
+    }
+    List<T> *p = this->start;
+    for (int i = 0; i < index; i++) {
+        p = p->next;
+    }
+    return p->data;
+}
+
+template <typename T>
 LinkedList<T>* LinkedList<T>::GetSubList(int startIndex, int endIndex) const {
     if (endIndex >= this->size || startIndex < 0 || endIndex < startIndex) {
         throw out_of_range("The index is out of range!");
@@ -154,6 +182,26 @@ void LinkedList<T>::Prepend(T item) {
 }
 
 template <typename T>
+void LinkedList<T>::Remove(int index) {
+    if (index >= this->size || index < 0) {
+        throw out_of_range("The index is out of range!");
+    }
+    List<T> *p = this->start;
+    if (index == 0) {
+        this->start = p->next;
+    } else {
+        for (int i = 0; i < index-1; i++) {
+            p = p->next;
+        }
+        p->next = p->next->next;
+    }
+    if (index == this->size-1) {
+        this->end = p;
+    }
+    this->size--;
+}
+
+template <typename T>
 void LinkedList<T>::InsertAt(T item, int index) {
     if (index >= this->size || index < 0) {
         throw out_of_range("The index is out of range!");
@@ -163,6 +211,21 @@ void LinkedList<T>::InsertAt(T item, int index) {
         p = p->next;
     }
     p->data = item;
+}
+
+template <typename T>
+void LinkedList<T>::PutAt(T item, int index) {
+    if (index >= this->size || index < 0) {
+        throw out_of_range("The index is out of range!");
+    }
+    List<T> *p = this->start;
+    for (int i = 0; i < index-1; i++) {
+        p = p->next;
+    }
+    List<T> *k = new List<T>(item);
+    k->next = p->next;
+    p->next = k;
+    this->size++;
 }
 
 template <typename T>

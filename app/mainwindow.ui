@@ -18,8 +18,8 @@
   </property>
   <property name="font">
    <font>
-    <family>Arial</family>
-    <pointsize>12</pointsize>
+    <family>Segoe UI</family>
+    <pointsize>10</pointsize>
     <bold>false</bold>
    </font>
   </property>
@@ -32,13 +32,6 @@
      <width>1200</width>
      <height>800</height>
     </size>
-   </property>
-   <property name="font">
-    <font>
-     <family>Arial</family>
-     <pointsize>10</pointsize>
-     <bold>false</bold>
-    </font>
    </property>
    <layout class="QGridLayout" name="gridLayout">
     <property name="topMargin">
@@ -60,8 +53,8 @@
       </property>
       <property name="font">
        <font>
-        <family>Arial</family>
-        <pointsize>11</pointsize>
+        <family>Segoe UI</family>
+        <pointsize>12</pointsize>
         <bold>true</bold>
        </font>
       </property>
@@ -94,7 +87,7 @@
           </size>
          </property>
          <property name="text">
-          <string>Добавить элемент в начало</string>
+          <string>Добавить в начало</string>
          </property>
         </widget>
        </item>
@@ -107,7 +100,7 @@
           </size>
          </property>
          <property name="text">
-          <string>Добавить элемент в конец</string>
+          <string>Добавить в конец</string>
          </property>
         </widget>
        </item>
@@ -120,12 +113,25 @@
           </size>
          </property>
          <property name="text">
-          <string>Вставить элемент по индексу</string>
+          <string>Вставить по индексу</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QPushButton" name="pushButton_11">
+         <property name="minimumSize">
+          <size>
+           <width>400</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Удалить элемент</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_12">
          <property name="minimumSize">
           <size>
            <width>400</width>
@@ -161,7 +167,7 @@
           </size>
          </property>
          <property name="text">
-          <string>Узнать размер объекта</string>
+          <string>Количество элементов</string>
          </property>
         </widget>
        </item>
@@ -174,7 +180,7 @@
           </size>
          </property>
          <property name="text">
-          <string>Получить первый элемент</string>
+          <string>Получить первый</string>
          </property>
         </widget>
        </item>
@@ -187,7 +193,7 @@
           </size>
          </property>
          <property name="text">
-          <string>Получить последний элемент</string>
+          <string>Получить последний</string>
          </property>
         </widget>
        </item>
@@ -200,7 +206,7 @@
           </size>
          </property>
          <property name="text">
-          <string>Получить элемент по индексу</string>
+          <string>Получить по индексу</string>
          </property>
         </widget>
        </item>
@@ -221,7 +227,7 @@
      </widget>
     </item>
     <item row="4" column="0">
-     <widget class="QPushButton" name="pushButton_12">
+     <widget class="QPushButton" name="pushButton_13">
       <property name="minimumSize">
        <size>
         <width>400</width>
@@ -293,7 +299,7 @@
      </widget>
     </item>
     <item row="5" column="0">
-     <widget class="QPushButton" name="pushButton_13">
+     <widget class="QPushButton" name="pushButton_14">
       <property name="minimumSize">
        <size>
         <width>400</width>

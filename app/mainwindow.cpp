@@ -1,8 +1,5 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
-// #include <QFile>
-#include <QMessageBox>
-#include <QInputDialog>
 using namespace std;
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow) {
@@ -20,10 +17,11 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     connect(ui->pushButton_8, &QPushButton::clicked, this, &MainWindow::prepend);
     connect(ui->pushButton_9, &QPushButton::clicked, this, &MainWindow::append);
     connect(ui->pushButton_10, &QPushButton::clicked, this, &MainWindow::insertAt);
-    connect(ui->pushButton_11, &QPushButton::clicked, this, &MainWindow::concatenate);
+    connect(ui->pushButton_11, &QPushButton::clicked, this, &MainWindow::remove);
+    connect(ui->pushButton_12, &QPushButton::clicked, this, &MainWindow::concatenate);
 
-    connect(ui->pushButton_12, &QPushButton::clicked, this, &MainWindow::showResult);
-    // connect(ui->pushButton_13, &QPushButton::clicked, this, &MainWindow::runTests);
+    connect(ui->pushButton_13, &QPushButton::clicked, this, &MainWindow::showResult);
+    connect(ui->pushButton_14, &QPushButton::clicked, this, &MainWindow::runTests);
 }
 
 MainWindow::~MainWindow() {
@@ -97,7 +95,7 @@ void MainWindow::getSize() {
 }
 
 void MainWindow::getFirst() {
-    if (mode == 0 || mode == 1 && arrSeq->GetLength() == 0 || mode == 2 && listSeq->GetLength() == 0) {
+    if (mode == 0 || (mode == 1 && arrSeq->GetLength() == 0) || (mode == 2 && listSeq->GetLength() == 0)) {
         showMessage("Ошибка", "Последовательность пуста!");
     } else if (mode == 1) {
         showMessage("Первый элемент", "Первый элемент: " + arrSeq->GetFirst());
@@ -107,7 +105,7 @@ void MainWindow::getFirst() {
 }
 
 void MainWindow::getLast() {
-    if (mode == 0 || mode == 1 && arrSeq->GetLength() == 0 || mode == 2 && listSeq->GetLength() == 0) {
+    if (mode == 0 || (mode == 1 && arrSeq->GetLength() == 0) || (mode == 2 && listSeq->GetLength() == 0)) {
         showMessage("Ошибка", "Последовательность пуста!");
     } else if (mode == 1) {
         showMessage("Последний элемент", "Последний элемент: " + arrSeq->GetLast());
@@ -117,7 +115,7 @@ void MainWindow::getLast() {
 }
 
 void MainWindow::getAt() {
-    if (mode == 0 || mode == 1 && arrSeq->GetLength() == 0 || mode == 2 && listSeq->GetLength() == 0) {
+    if (mode == 0 || (mode == 1 && arrSeq->GetLength() == 0) || (mode == 2 && listSeq->GetLength() == 0)) {
         showMessage("Ошибка", "Последовательность пуста!");
     } else if (mode == 1) {
         int index = getIntInput("Получить элемент", "Введите индекс:", 0, arrSeq->GetLength()-1);
@@ -133,7 +131,7 @@ void MainWindow::getAt() {
 }
 
 void MainWindow::getSubsequence() {
-    if (mode == 0 || mode == 1 && arrSeq->GetLength() == 0 || mode == 2 && listSeq->GetLength() == 0) {
+    if (mode == 0 || (mode == 1 && arrSeq->GetLength() == 0) || (mode == 2 && listSeq->GetLength() == 0)) {
         showMessage("Ошибка", "Последовательность пуста!");
     } else if (mode == 1) {
         int start = getIntInput("Подпоследовательность", "Введите начальный индекс:", 0, arrSeq->GetLength()-1);
@@ -220,6 +218,24 @@ void MainWindow::insertAt() {
     }
 }
 
+void MainWindow::remove() {
+    if (mode == 0) {
+        showMessage("Ошибка", "Сначала создайте последовательность!");
+    } else if (mode == 1) {
+        int index = getIntInput("Удалить элемент", "Введите индекс:", 0, arrSeq->GetLength()-1);
+        if (index >= 0) {
+            arrSeq->Remove(index);
+            showMessage("Успех", "Элемент удалён из последовательности!");
+        }
+    } else if (mode == 2) {
+        int index = getIntInput("Удалить элемент", "Введите индекс:", 0, listSeq->GetLength()-1);
+        if (index >= 0) {
+            listSeq->Remove(index);
+            showMessage("Успех", "Элемент удалён из последовательности!");
+        }
+    }
+}
+
 void MainWindow::concatenate() {
     if (mode == 0) {
         showMessage("Ошибка", "Сначала создайте последовательность!");
@@ -266,20 +282,63 @@ void MainWindow::showResult() {
     }
 }
 
-// void MainWindow::runTests() {
-//     FILE* tempFile = freopen("tests/log.txt", "w", stdout);
-//     int result = run_tests();
-//     fclose(tempFile);
-//     freopen("CON", "w", stdout);
-//     QFile file("tests/log.txt");
-//     if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-//         QTextStream in(&file);
-//         QString testOutput = in.readAll();
-//         file.close();
-//         QMessageBox::information(this, "Результаты тестов",
-//                                  (result == 0) ? "Все тесты пройдены успешно!\n\n" + testOutput
-//                                                : "Некоторые тесты не пройдены!\n\n" + testOutput);
-//     } else {
-//         QMessageBox::critical(this, "Ошибка", "Не удалось прочитать результаты тестов");
-//     }
-// }
+void MainWindow::runTests() {
+    QString testProgram = "../../../main.exe";
+    if (!QFile::exists(testProgram)) {
+        QMessageBox::critical(this, "Ошибка", "Тестовая программа не найдена по пути:\n" +
+                                  QDir::toNativeSeparators(QFileInfo(testProgram).absoluteFilePath()));
+        return;
+    }
+
+    QProcess testProcess;
+    testProcess.setProcessChannelMode(QProcess::MergedChannels);
+    testProcess.start(testProgram);
+    if (!testProcess.waitForFinished(30000)) {
+        if (testProcess.state() == QProcess::Running) {
+            testProcess.kill();
+        }
+        QMessageBox::critical(this, "Ошибка", "Тесты не завершились за отведенное время");
+        return;
+    }
+
+    int exitCode = testProcess.exitCode();
+    QString output = QString::fromLocal8Bit(testProcess.readAllStandardOutput());
+    QDialog resultsDialog(this);
+    resultsDialog.setWindowTitle("Результаты тестирования");
+    resultsDialog.resize(800, 600);
+    QVBoxLayout layout(&resultsDialog);
+    QTextEdit textEdit;
+    textEdit.setReadOnly(true);
+    textEdit.setLineWrapMode(QTextEdit::NoWrap);
+    textEdit.setFontFamily("Courier New");
+    textEdit.setFontPointSize(10);
+
+    QString htmlOutput;
+    htmlOutput += "<style>pre {margin:0;}</style>";
+    htmlOutput += "<h3>" + QDateTime::currentDateTime().toString() + "</h3>";
+    htmlOutput += exitCode == 0 ? "<p style='color:green;'>✓ Тесты пройдены успешно</p>"
+                                : "<p style='color:red;'>✗ Обнаружены ошибки (код: " + QString::number(exitCode) + ")</p>";
+    htmlOutput += "<pre>" + output.toHtmlEscaped() + "</pre>";
+    textEdit.setHtml(htmlOutput);
+    layout.addWidget(&textEdit);
+
+    QDialogButtonBox buttons(QDialogButtonBox::Close | QDialogButtonBox::Save);
+    layout.addWidget(&buttons);
+    connect(&buttons, &QDialogButtonBox::rejected, &resultsDialog, &QDialog::reject);
+    connect(buttons.button(QDialogButtonBox::Save), &QPushButton::clicked, [&]() {
+        QString fileName = QFileDialog::getSaveFileName(&resultsDialog, "Сохранить результаты", "", "Текстовые файлы (*.txt)");
+        if (!fileName.isEmpty()) {
+            QFile file(fileName);
+            if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                QTextStream stream(&file);
+                stream << "=== Результаты тестирования ===\n" << QDateTime::currentDateTime().toString() << "\n\n" << output;
+                file.close();
+                QMessageBox::information(&resultsDialog, "Сохранено", "Результаты сохранены в файл");
+            } else {
+                QMessageBox::warning(&resultsDialog, "Ошибка", "Не удалось сохранить файл");
+            }
+        }
+    });
+
+    resultsDialog.exec();
+}

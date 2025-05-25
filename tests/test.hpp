@@ -48,6 +48,8 @@ inline void test_array_decomposition(void) {
     TEST_ASSERT_EQUAL(2, arrSeqSub->GetFirst());
     TEST_ASSERT_EQUAL(4, arrSeqSub->GetLast());
     TEST_ASSERT_EQUAL(3, arrSeqSub->Get(1));
+    TEST_ASSERT_EQUAL(3, (*arrSeqSub)[1]);
+    TEST_ASSERT_EQUAL(2, arrSeq[1]);
 }
 
 // Операции
@@ -67,11 +69,32 @@ inline void test_array_prepend(void) {
     TEST_ASSERT_EQUAL(0, arrSeq.GetFirst());
 }
 
+inline void test_array_remove(void) {
+    int items[] = {1, 2, 3, 4, 5};
+    ArraySequence<int> arrSeq(items, 5);
+    arrSeq.Remove(0);
+    arrSeq.Remove(1);
+    arrSeq.Remove(2);
+    TEST_ASSERT_EQUAL(2, arrSeq.GetLength());
+    TEST_ASSERT_EQUAL(2, arrSeq.GetFirst());
+    TEST_ASSERT_EQUAL(4, arrSeq.GetLast());
+}
+
 inline void test_array_insertat(void) {
     int items[] = {1, 2, 3, 4, 5};
     ArraySequence<int> arrSeq(items, 5);
     arrSeq.InsertAt(10, 2);
     TEST_ASSERT_EQUAL(10, arrSeq.Get(2));
+}
+
+inline void test_array_putat(void) {
+    int items[] = {1, 2, 3, 4, 5};
+    ArraySequence<int> arrSeq(items, 5);
+    arrSeq.PutAt(10, 2);
+    TEST_ASSERT_EQUAL(6, arrSeq.GetLength());
+    TEST_ASSERT_EQUAL(2, arrSeq.Get(1));
+    TEST_ASSERT_EQUAL(10, arrSeq.Get(2));
+    TEST_ASSERT_EQUAL(3, arrSeq.Get(3));
 }
 
 inline void test_array_concat(void) {
@@ -106,12 +129,35 @@ inline void test_immutable_array_prepend(void) {
     TEST_ASSERT_EQUAL(1, arrSeq.GetFirst());
 }
 
+inline void test_immutable_array_remove(void) {
+    int items[] = {1, 2, 3, 4, 5};
+    ImmutableArraySequence<int> arrSeq(items, 5);
+    auto result = arrSeq.Remove(0);
+    result = result->Remove(1);
+    result = result->Remove(2);
+    TEST_ASSERT_EQUAL(2, result->GetLength());
+    TEST_ASSERT_EQUAL(2, result->GetFirst());
+    TEST_ASSERT_EQUAL(4, result->GetLast());
+    TEST_ASSERT_EQUAL(5, arrSeq.GetLength());
+}
+
 inline void test_immutable_array_insertat(void) {
     int items[] = {1, 2, 3, 4, 5};
     ImmutableArraySequence<int> arrSeq(items, 5);
     auto result = arrSeq.InsertAt(10, 2);
     TEST_ASSERT_EQUAL(10, result->Get(2));
     TEST_ASSERT_EQUAL(3, arrSeq.Get(2));
+}
+
+inline void test_immutable_array_putat(void) {
+    int items[] = {1, 2, 3, 4, 5};
+    ImmutableArraySequence<int> arrSeq(items, 5);
+    auto result = arrSeq.PutAt(10, 2);
+    TEST_ASSERT_EQUAL(6, result->GetLength());
+    TEST_ASSERT_EQUAL(2, result->Get(1));
+    TEST_ASSERT_EQUAL(10, result->Get(2));
+    TEST_ASSERT_EQUAL(3, result->Get(3));
+    TEST_ASSERT_EQUAL(5, arrSeq.GetLength());
 }
 
 inline void test_immutable_array_concat(void) {
@@ -165,6 +211,8 @@ inline void test_list_decomposition(void) {
     TEST_ASSERT_EQUAL(2, listSeqSub->GetFirst());
     TEST_ASSERT_EQUAL(4, listSeqSub->GetLast());
     TEST_ASSERT_EQUAL(3, listSeqSub->Get(1));
+    TEST_ASSERT_EQUAL(3, (*listSeqSub)[1]);
+    TEST_ASSERT_EQUAL(2, listSeq[1]);
 }
 
 // Операции
@@ -184,11 +232,32 @@ inline void test_list_prepend(void) {
     TEST_ASSERT_EQUAL(0, listSeq.GetFirst());
 }
 
+inline void test_list_remove(void) {
+    int items[] = {1, 2, 3, 4, 5};
+    ListSequence<int> listSeq(items, 5);
+    listSeq.Remove(0);
+    listSeq.Remove(1);
+    listSeq.Remove(2);
+    TEST_ASSERT_EQUAL(2, listSeq.GetLength());
+    TEST_ASSERT_EQUAL(2, listSeq.GetFirst());
+    TEST_ASSERT_EQUAL(4, listSeq.GetLast());
+}
+
 inline void test_list_insertat(void) {
     int items[] = {1, 2, 3, 4, 5};
     ListSequence<int> listSeq(items, 5);
     listSeq.InsertAt(10, 2);
     TEST_ASSERT_EQUAL(10, listSeq.Get(2));
+}
+
+inline void test_list_putat(void) {
+    int items[] = {1, 2, 3, 4, 5};
+    ListSequence<int> listSeq(items, 5);
+    listSeq.PutAt(10, 2);
+    TEST_ASSERT_EQUAL(6, listSeq.GetLength());
+    TEST_ASSERT_EQUAL(2, listSeq.Get(1));
+    TEST_ASSERT_EQUAL(10, listSeq.Get(2));
+    TEST_ASSERT_EQUAL(3, listSeq.Get(3));
 }
 
 inline void test_list_concat(void) {
@@ -223,12 +292,35 @@ inline void test_immutable_list_prepend(void) {
     TEST_ASSERT_EQUAL(1, listSeq.GetFirst());
 }
 
+inline void test_immutable_list_remove(void) {
+    int items[] = {1, 2, 3, 4, 5};
+    ImmutableListSequence<int> listSeq(items, 5);
+    auto result = listSeq.Remove(0);
+    result = result->Remove(1);
+    result = result->Remove(2);
+    TEST_ASSERT_EQUAL(2, result->GetLength());
+    TEST_ASSERT_EQUAL(2, result->GetFirst());
+    TEST_ASSERT_EQUAL(4, result->GetLast());
+    TEST_ASSERT_EQUAL(5, listSeq.GetLength());
+}
+
 inline void test_immutable_list_insertat(void) {
     int items[] = {1, 2, 3, 4, 5};
     ImmutableArraySequence<int> listSeq(items, 5);
     auto result = listSeq.InsertAt(10, 2);
     TEST_ASSERT_EQUAL(10, result->Get(2));
     TEST_ASSERT_EQUAL(3, listSeq.Get(2));
+}
+
+inline void test_immutable_list_putat(void) {
+    int items[] = {1, 2, 3, 4, 5};
+    ImmutableListSequence<int> listSeq(items, 5);
+    auto result = listSeq.PutAt(10, 2);
+    TEST_ASSERT_EQUAL(6, result->GetLength());
+    TEST_ASSERT_EQUAL(2, result->Get(1));
+    TEST_ASSERT_EQUAL(10, result->Get(2));
+    TEST_ASSERT_EQUAL(3, result->Get(3));
+    TEST_ASSERT_EQUAL(5, listSeq.GetLength());
 }
 
 inline void test_immutable_list_concat(void) {
@@ -260,13 +352,17 @@ inline int run_tests(void) {
     // Операции
     RUN_TEST(test_array_append);
     RUN_TEST(test_array_prepend);
+    RUN_TEST(test_array_remove);
     RUN_TEST(test_array_insertat);
+    RUN_TEST(test_array_putat);
     RUN_TEST(test_array_concat);
 
     // Операции (неизменяемая)
     RUN_TEST(test_immutable_array_append);
     RUN_TEST(test_immutable_array_prepend);
+    RUN_TEST(test_immutable_array_remove);
     RUN_TEST(test_immutable_array_insertat);
+    RUN_TEST(test_immutable_array_putat);
     RUN_TEST(test_immutable_array_concat);
 
     // ListSequence (по умолчанию изменяемая)
@@ -281,13 +377,17 @@ inline int run_tests(void) {
     // Операции
     RUN_TEST(test_list_append);
     RUN_TEST(test_list_prepend);
+    RUN_TEST(test_list_remove);
     RUN_TEST(test_list_insertat);
+    RUN_TEST(test_list_putat);
     RUN_TEST(test_list_concat);
 
     // Операции (неизменяемая)
     RUN_TEST(test_immutable_list_append);
     RUN_TEST(test_immutable_list_prepend);
+    RUN_TEST(test_immutable_list_remove);
     RUN_TEST(test_immutable_list_insertat);
+    RUN_TEST(test_immutable_list_putat);
     RUN_TEST(test_immutable_list_concat);
     
     return UNITY_END();

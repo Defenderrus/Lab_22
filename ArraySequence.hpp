@@ -25,12 +25,16 @@ class ArraySequence: public Sequence<T> {
         T GetFirst() const override;
         T GetLast() const override;
         T Get(int index) const override;
+        T& operator[](int index) override;
+        const T& operator[](int index) const override;
         Sequence<T>* GetSubsequence(int startIndex, int endIndex) const override;
 
         // Операции
         Sequence<T>* Append(T item) override;
         Sequence<T>* Prepend(T item) override;
+        Sequence<T>* Remove(int index) override;
         Sequence<T>* InsertAt(T item, int index) override;
+        Sequence<T>* PutAt(T item, int index) override;
         Sequence<T>* Concat(Sequence<T> *other) override;
 };
 
@@ -77,6 +81,22 @@ T ArraySequence<T>::Get(int index) const {
 }
 
 template <typename T>
+T& ArraySequence<T>::operator[](int index) {
+    if (index >= this->array->GetSize() || index < 0) {
+        throw out_of_range("The index is out of range!");
+    }
+    return (*this->array)[index];
+}
+
+template <typename T>
+const T& ArraySequence<T>::operator[](int index) const {
+    if (index >= this->array->GetSize() || index < 0) {
+        throw out_of_range("The index is out of range!");
+    }
+    return (*this->array)[index];
+}
+
+template <typename T>
 Sequence<T>* ArraySequence<T>::GetSubsequence(int startIndex, int endIndex) const {
     if (endIndex >= this->array->GetSize() || startIndex < 0 || endIndex < startIndex) {
         throw out_of_range("The index is out of range!");
@@ -114,9 +134,46 @@ Sequence<T>* ArraySequence<T>::Prepend(T item) {
 }
 
 template <typename T>
+Sequence<T>* ArraySequence<T>::Remove(int index) {
+    if (index >= this->array->GetSize() || index < 0) {
+        throw out_of_range("The index is out of range!");
+    }
+    ArraySequence<T> *newSequence = Mode();
+    DynamicArray<T> *newArray = new DynamicArray<T>(newSequence->array->GetSize()-1);
+    for (int i = 0; i < newSequence->array->GetSize(); i++) {
+        if (i < index) {
+            newArray->Set(i, newSequence->array->Get(i));
+        } else if (i > index) {
+            newArray->Set(i-1, newSequence->array->Get(i));
+        }
+    }
+    newSequence->array = newArray;
+    return newSequence;
+}
+
+template <typename T>
 Sequence<T>* ArraySequence<T>::InsertAt(T item, int index) {
     ArraySequence<T> *newSequence = Mode();
     newSequence->array->Set(index, item);
+    return newSequence;
+}
+
+template <typename T>
+Sequence<T>* ArraySequence<T>::PutAt(T item, int index) {
+    if (index >= this->array->GetSize() || index < 0) {
+        throw out_of_range("The index is out of range!");
+    }
+    ArraySequence<T> *newSequence = Mode();
+    DynamicArray<T> *newArray = new DynamicArray<T>(newSequence->array->GetSize()+1);
+    newArray->Set(index, item);
+    for (int i = 0; i < newSequence->array->GetSize(); i++) {
+        if (i < index) {
+            newArray->Set(i, newSequence->array->Get(i));
+        } else {
+            newArray->Set(i+1, newSequence->array->Get(i));
+        }
+    }
+    newSequence->array = newArray;
     return newSequence;
 }
 

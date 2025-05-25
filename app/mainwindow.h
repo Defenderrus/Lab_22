@@ -5,6 +5,13 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <QFile>
+#include <QProcess>
+#include <QTextStream>
+#include <QTextEdit>
+#include <QFileDialog>
+#include <QMessageBox>
+#include <QInputDialog>
 #include "../tests/test.hpp"
 using namespace std;
 
@@ -33,10 +40,11 @@ private slots:
     void prepend();
     void append();
     void insertAt();
+    void remove();
     void concatenate();
 
     void showResult();
-    // void runTests();
+    void runTests();
 
 private:
     Ui::MainWindow *ui;
