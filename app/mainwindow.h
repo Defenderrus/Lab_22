@@ -30,6 +30,8 @@ public:
 private slots:
     void createArraySequence();
     void createListSequence();
+    void createImmutableArraySequence();
+    void createImmutableListSequence();
 
     void getSize();
     void getFirst();
@@ -50,6 +52,8 @@ private:
     Ui::MainWindow *ui;
     ArraySequence<string>* arrSeq = nullptr;
     ListSequence<string>* listSeq = nullptr;
+    ImmutableArraySequence<string>* arrSeqIm = nullptr;
+    ImmutableListSequence<string>* listSeqIm = nullptr;
     int mode = 0;
 
     vector<string> splitString(const string& str);

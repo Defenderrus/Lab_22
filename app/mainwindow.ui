@@ -45,9 +45,15 @@
     </property>
     <item row="0" column="0">
      <widget class="QLabel" name="label">
+      <property name="minimumSize">
+       <size>
+        <width>600</width>
+        <height>30</height>
+       </size>
+      </property>
       <property name="maximumSize">
        <size>
-        <width>400</width>
+        <width>600</width>
         <height>30</height>
        </size>
       </property>
@@ -66,91 +72,37 @@
       </property>
      </widget>
     </item>
-    <item row="3" column="0">
-     <widget class="QGroupBox" name="groupBox_3">
+    <item row="4" column="0">
+     <widget class="QPushButton" name="pushButton_15">
       <property name="minimumSize">
        <size>
-        <width>450</width>
-        <height>170</height>
+        <width>400</width>
+        <height>30</height>
        </size>
       </property>
-      <property name="title">
-       <string>Операции</string>
+      <property name="text">
+       <string>Вывести результат</string>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout_3">
-       <item>
-        <widget class="QPushButton" name="pushButton_8">
-         <property name="minimumSize">
-          <size>
-           <width>400</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>Добавить в начало</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="pushButton_9">
-         <property name="minimumSize">
-          <size>
-           <width>400</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>Добавить в конец</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="pushButton_10">
-         <property name="minimumSize">
-          <size>
-           <width>400</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>Вставить по индексу</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="pushButton_11">
-         <property name="minimumSize">
-          <size>
-           <width>400</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>Удалить элемент</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="pushButton_12">
-         <property name="minimumSize">
-          <size>
-           <width>400</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>Конкатенация</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+     </widget>
+    </item>
+    <item row="5" column="0">
+     <widget class="QPushButton" name="pushButton_16">
+      <property name="minimumSize">
+       <size>
+        <width>400</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>Запустить тесты</string>
+      </property>
      </widget>
     </item>
     <item row="2" column="0">
      <widget class="QGroupBox" name="groupBox_2">
       <property name="minimumSize">
        <size>
-        <width>450</width>
+        <width>600</width>
         <height>200</height>
        </size>
       </property>
@@ -159,7 +111,7 @@
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <widget class="QPushButton" name="pushButton_3">
+        <widget class="QPushButton" name="pushButton_5">
          <property name="minimumSize">
           <size>
            <width>400</width>
@@ -172,7 +124,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_4">
+        <widget class="QPushButton" name="pushButton_6">
          <property name="minimumSize">
           <size>
            <width>400</width>
@@ -185,7 +137,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_5">
+        <widget class="QPushButton" name="pushButton_7">
          <property name="minimumSize">
           <size>
            <width>400</width>
@@ -198,7 +150,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_6">
+        <widget class="QPushButton" name="pushButton_8">
          <property name="minimumSize">
           <size>
            <width>400</width>
@@ -211,7 +163,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_7">
+        <widget class="QPushButton" name="pushButton_9">
          <property name="minimumSize">
           <size>
            <width>400</width>
@@ -226,25 +178,12 @@
       </layout>
      </widget>
     </item>
-    <item row="4" column="0">
-     <widget class="QPushButton" name="pushButton_13">
-      <property name="minimumSize">
-       <size>
-        <width>400</width>
-        <height>30</height>
-       </size>
-      </property>
-      <property name="text">
-       <string>Вывести результат</string>
-      </property>
-     </widget>
-    </item>
     <item row="1" column="0">
      <widget class="QGroupBox" name="groupBox">
       <property name="minimumSize">
        <size>
-        <width>450</width>
-        <height>110</height>
+        <width>600</width>
+        <height>100</height>
        </size>
       </property>
       <property name="maximumSize">
@@ -256,31 +195,25 @@
       <property name="title">
        <string>Создание объекта</string>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <item>
-        <widget class="QPushButton" name="pushButton">
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="1" column="1">
+        <widget class="QPushButton" name="pushButton_4">
          <property name="minimumSize">
           <size>
-           <width>400</width>
+           <width>300</width>
            <height>30</height>
           </size>
          </property>
-         <property name="maximumSize">
-          <size>
-           <width>16777215</width>
-           <height>16777215</height>
-          </size>
-         </property>
          <property name="text">
-          <string>Создать ArraySequence</string>
+          <string>ImmutableListSequence</string>
          </property>
         </widget>
        </item>
-       <item>
-        <widget class="QPushButton" name="pushButton_2">
+       <item row="0" column="0">
+        <widget class="QPushButton" name="pushButton">
          <property name="minimumSize">
           <size>
-           <width>400</width>
+           <width>300</width>
            <height>30</height>
           </size>
          </property>
@@ -291,24 +224,123 @@
           </size>
          </property>
          <property name="text">
-          <string>Создать ListSequence</string>
+          <string>ArraySequence</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QPushButton" name="pushButton_3">
+         <property name="minimumSize">
+          <size>
+           <width>300</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>ImmutableArraySequence</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QPushButton" name="pushButton_2">
+         <property name="minimumSize">
+          <size>
+           <width>300</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>ListSequence</string>
          </property>
         </widget>
        </item>
       </layout>
      </widget>
     </item>
-    <item row="5" column="0">
-     <widget class="QPushButton" name="pushButton_14">
+    <item row="3" column="0">
+     <widget class="QGroupBox" name="groupBox_3">
       <property name="minimumSize">
        <size>
-        <width>400</width>
-        <height>30</height>
+        <width>600</width>
+        <height>200</height>
        </size>
       </property>
-      <property name="text">
-       <string>Запустить тесты</string>
+      <property name="title">
+       <string>Операции</string>
       </property>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="QPushButton" name="pushButton_10">
+         <property name="minimumSize">
+          <size>
+           <width>400</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Добавить в начало</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_11">
+         <property name="minimumSize">
+          <size>
+           <width>400</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Добавить в конец</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_12">
+         <property name="minimumSize">
+          <size>
+           <width>400</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Вставить по индексу</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_13">
+         <property name="minimumSize">
+          <size>
+           <width>400</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Удалить элемент</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_14">
+         <property name="minimumSize">
+          <size>
+           <width>400</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Конкатенация</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </item>
    </layout>
