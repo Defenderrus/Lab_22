@@ -1,6 +1,7 @@
 #ifndef TEST_HPP
 #define TEST_HPP
 
+#include <iostream>
 #include "../ArraySequence.hpp"
 #include "../ListSequence.hpp"
 #include "unity.h"
@@ -50,6 +51,8 @@ inline void test_array_decomposition(void) {
     TEST_ASSERT_EQUAL(3, arrSeqSub->Get(1));
     TEST_ASSERT_EQUAL(3, (*arrSeqSub)[1]);
     TEST_ASSERT_EQUAL(2, arrSeq[1]);
+    try {arrSeqSub->Get(10);}
+    catch (const exception &e) {cout << "tests/test.hpp:367:test_array_decomposition:" << e.what() << endl;}
 }
 
 // Операции
@@ -78,6 +81,8 @@ inline void test_array_remove(void) {
     TEST_ASSERT_EQUAL(2, arrSeq.GetLength());
     TEST_ASSERT_EQUAL(2, arrSeq.GetFirst());
     TEST_ASSERT_EQUAL(4, arrSeq.GetLast());
+    try {arrSeq.Remove(10);}
+    catch (const exception &e) {cout << "tests/test.hpp:372:test_array_remove:" << e.what() << endl;}
 }
 
 inline void test_array_insertat(void) {
@@ -85,6 +90,8 @@ inline void test_array_insertat(void) {
     ArraySequence<int> arrSeq(items, 5);
     arrSeq.InsertAt(10, 2);
     TEST_ASSERT_EQUAL(10, arrSeq.Get(2));
+    try {arrSeq.InsertAt(10, 10);}
+    catch (const exception &e) {cout << "tests/test.hpp:373:test_array_insertat:" << e.what() << endl;}
 }
 
 inline void test_array_putat(void) {
@@ -95,6 +102,8 @@ inline void test_array_putat(void) {
     TEST_ASSERT_EQUAL(2, arrSeq.Get(1));
     TEST_ASSERT_EQUAL(10, arrSeq.Get(2));
     TEST_ASSERT_EQUAL(3, arrSeq.Get(3));
+    try {arrSeq.PutAt(10, 10);}
+    catch (const exception &e) {cout << "tests/test.hpp:374:test_array_putat:" << e.what() << endl;}
 }
 
 inline void test_array_concat(void) {
@@ -106,6 +115,44 @@ inline void test_array_concat(void) {
     TEST_ASSERT_EQUAL(10, arrSeq1.GetLength());
     TEST_ASSERT_EQUAL(1, arrSeq1.GetFirst());
     TEST_ASSERT_EQUAL(10, arrSeq1.GetLast());
+}
+
+// Дополнительные операции
+inline void test_array_map(void) {
+    int items[] = {1, 2, 3, 4, 5};
+    ArraySequence<int> arrSeq(items, 5);
+    auto map = arrSeq.Map<int>([](int x){return x + 1;});
+    TEST_ASSERT_EQUAL(2, map->GetFirst());
+}
+
+inline void test_array_where(void) {
+    int items[] = {1, 2, 3, 4, 5};
+    ArraySequence<int> arrSeq(items, 5);
+    auto where = arrSeq.Where([](int x){return x % 2 == 1;});
+    TEST_ASSERT_EQUAL(3, where->GetLength());
+    TEST_ASSERT_EQUAL(1, where->GetFirst());
+    TEST_ASSERT_EQUAL(3, where->Get(1));
+    TEST_ASSERT_EQUAL(5, where->GetLast());
+}
+
+inline void test_array_reduce(void) {
+    int items[] = {1, 2, 3, 4, 5};
+    ArraySequence<int> arrSeq(items, 5);
+    int reduce = arrSeq.Reduce([](int x, int y){return x + y;}, 0);
+    TEST_ASSERT_EQUAL(15, reduce);
+}
+
+inline void test_array_zip_unzip(void) {
+    int items1[] = {1, 2, 3, 4, 5};
+    string items2[] = {"a", "b", "c", "d", "e"};
+    ArraySequence<int> arrSeq1(items1, 5);
+    ArraySequence<string> arrSeq2(items2, 5);
+    auto arrSeq = arrSeq1.Zip(&arrSeq2);
+    auto [arrSeqNew1, arrSeqNew2] = ArraySequence<int>::Unzip(arrSeq);
+    TEST_ASSERT_EQUAL(1, (*arrSeq)[0].first);
+    TEST_ASSERT_EQUAL_STRING("a", (*arrSeq)[0].second.c_str());
+    TEST_ASSERT_EQUAL(1, (*arrSeqNew1)[0]);
+    TEST_ASSERT_EQUAL_STRING("a", (*arrSeqNew2)[0].c_str());
 }
 
 // Операции (неизменяемая)
@@ -213,6 +260,8 @@ inline void test_list_decomposition(void) {
     TEST_ASSERT_EQUAL(3, listSeqSub->Get(1));
     TEST_ASSERT_EQUAL(3, (*listSeqSub)[1]);
     TEST_ASSERT_EQUAL(2, listSeq[1]);
+    try {listSeqSub->Get(10);}
+    catch (const exception &e) {cout << "tests/test.hpp:392:test_list_decomposition:" << e.what() << endl;}
 }
 
 // Операции
@@ -241,6 +290,8 @@ inline void test_list_remove(void) {
     TEST_ASSERT_EQUAL(2, listSeq.GetLength());
     TEST_ASSERT_EQUAL(2, listSeq.GetFirst());
     TEST_ASSERT_EQUAL(4, listSeq.GetLast());
+    try {listSeq.Remove(10);}
+    catch (const exception &e) {cout << "tests/test.hpp:397:test_list_remove:" << e.what() << endl;}
 }
 
 inline void test_list_insertat(void) {
@@ -248,6 +299,8 @@ inline void test_list_insertat(void) {
     ListSequence<int> listSeq(items, 5);
     listSeq.InsertAt(10, 2);
     TEST_ASSERT_EQUAL(10, listSeq.Get(2));
+    try {listSeq.InsertAt(10, 10);}
+    catch (const exception &e) {cout << "tests/test.hpp:398:test_list_insertat:" << e.what() << endl;}
 }
 
 inline void test_list_putat(void) {
@@ -258,6 +311,8 @@ inline void test_list_putat(void) {
     TEST_ASSERT_EQUAL(2, listSeq.Get(1));
     TEST_ASSERT_EQUAL(10, listSeq.Get(2));
     TEST_ASSERT_EQUAL(3, listSeq.Get(3));
+    try {listSeq.PutAt(10, 10);}
+    catch (const exception &e) {cout << "tests/test.hpp:399:test_list_putat:" << e.what() << endl;}
 }
 
 inline void test_list_concat(void) {
@@ -269,6 +324,44 @@ inline void test_list_concat(void) {
     TEST_ASSERT_EQUAL(10, listSeq1.GetLength());
     TEST_ASSERT_EQUAL(1, listSeq1.GetFirst());
     TEST_ASSERT_EQUAL(10, listSeq1.GetLast());
+}
+
+// Дополнительные операции
+inline void test_list_map(void) {
+    int items[] = {1, 2, 3, 4, 5};
+    ListSequence<int> listSeq(items, 5);
+    auto map = listSeq.Map<int>([](int x){return x + 1;});
+    TEST_ASSERT_EQUAL(2, map->GetFirst());
+}
+
+inline void test_list_where(void) {
+    int items[] = {1, 2, 3, 4, 5};
+    ListSequence<int> listSeq(items, 5);
+    auto where = listSeq.Where([](int x){return x % 2 == 1;});
+    TEST_ASSERT_EQUAL(3, where->GetLength());
+    TEST_ASSERT_EQUAL(1, where->GetFirst());
+    TEST_ASSERT_EQUAL(3, where->Get(1));
+    TEST_ASSERT_EQUAL(5, where->GetLast());
+}
+
+inline void test_list_reduce(void) {
+    int items[] = {1, 2, 3, 4, 5};
+    ListSequence<int> listSeq(items, 5);
+    int reduce = listSeq.Reduce([](int x, int y){return x + y;}, 0);
+    TEST_ASSERT_EQUAL(15, reduce);
+}
+
+inline void test_list_zip_unzip(void) {
+    int items1[] = {1, 2, 3, 4, 5};
+    string items2[] = {"a", "b", "c", "d", "e"};
+    ListSequence<int> listSeq1(items1, 5);
+    ListSequence<string> listSeq2(items2, 5);
+    auto listSeq = listSeq1.Zip(&listSeq2);
+    auto [listSeqNew1, listSeqNew2] = ListSequence<int>::Unzip(listSeq);
+    TEST_ASSERT_EQUAL(1, (*listSeq)[0].first);
+    TEST_ASSERT_EQUAL_STRING("a", (*listSeq)[0].second.c_str());
+    TEST_ASSERT_EQUAL(1, (*listSeqNew1)[0]);
+    TEST_ASSERT_EQUAL_STRING("a", (*listSeqNew2)[0].c_str());
 }
 
 // Операции (неизменяемая)
@@ -357,6 +450,12 @@ inline int run_tests(void) {
     RUN_TEST(test_array_putat);
     RUN_TEST(test_array_concat);
 
+    // Дополнительные операции
+    RUN_TEST(test_array_map);
+    RUN_TEST(test_array_where);
+    RUN_TEST(test_array_reduce);
+    RUN_TEST(test_array_zip_unzip);
+
     // Операции (неизменяемая)
     RUN_TEST(test_immutable_array_append);
     RUN_TEST(test_immutable_array_prepend);
@@ -381,6 +480,12 @@ inline int run_tests(void) {
     RUN_TEST(test_list_insertat);
     RUN_TEST(test_list_putat);
     RUN_TEST(test_list_concat);
+
+    // Дополнительные операции
+    RUN_TEST(test_list_map);
+    RUN_TEST(test_list_where);
+    RUN_TEST(test_list_reduce);
+    RUN_TEST(test_list_zip_unzip);
 
     // Операции (неизменяемая)
     RUN_TEST(test_immutable_list_append);
