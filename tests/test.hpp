@@ -5,7 +5,6 @@
 #include "../ArraySequence.hpp"
 #include "../ListSequence.hpp"
 #include "unity.h"
-using namespace std;
 
 
 inline void setUp(void) {}
@@ -52,7 +51,7 @@ inline void test_array_decomposition(void) {
     TEST_ASSERT_EQUAL(3, (*arrSeqSub)[1]);
     TEST_ASSERT_EQUAL(2, arrSeq[1]);
     try {arrSeqSub->Get(10);}
-    catch (const exception &e) {cout << "tests/test.hpp:367:test_array_decomposition:" << e.what() << endl;}
+    catch (const std::exception &e) {std::cout << "tests/test.hpp:367:test_array_decomposition:" << e.what() << std::endl;}
 }
 
 // Операции
@@ -82,7 +81,7 @@ inline void test_array_remove(void) {
     TEST_ASSERT_EQUAL(2, arrSeq.GetFirst());
     TEST_ASSERT_EQUAL(4, arrSeq.GetLast());
     try {arrSeq.Remove(10);}
-    catch (const exception &e) {cout << "tests/test.hpp:372:test_array_remove:" << e.what() << endl;}
+    catch (const std::exception &e) {std::cout << "tests/test.hpp:372:test_array_remove:" << e.what() << std::endl;}
 }
 
 inline void test_array_insertat(void) {
@@ -91,7 +90,7 @@ inline void test_array_insertat(void) {
     arrSeq.InsertAt(10, 2);
     TEST_ASSERT_EQUAL(10, arrSeq.Get(2));
     try {arrSeq.InsertAt(10, 10);}
-    catch (const exception &e) {cout << "tests/test.hpp:373:test_array_insertat:" << e.what() << endl;}
+    catch (const std::exception &e) {std::cout << "tests/test.hpp:373:test_array_insertat:" << e.what() << std::endl;}
 }
 
 inline void test_array_putat(void) {
@@ -103,7 +102,7 @@ inline void test_array_putat(void) {
     TEST_ASSERT_EQUAL(10, arrSeq.Get(2));
     TEST_ASSERT_EQUAL(3, arrSeq.Get(3));
     try {arrSeq.PutAt(10, 10);}
-    catch (const exception &e) {cout << "tests/test.hpp:374:test_array_putat:" << e.what() << endl;}
+    catch (const std::exception &e) {std::cout << "tests/test.hpp:374:test_array_putat:" << e.what() << std::endl;}
 }
 
 inline void test_array_concat(void) {
@@ -144,9 +143,9 @@ inline void test_array_reduce(void) {
 
 inline void test_array_zip_unzip(void) {
     int items1[] = {1, 2, 3, 4, 5};
-    string items2[] = {"a", "b", "c", "d", "e"};
+    std::string items2[] = {"a", "b", "c", "d", "e"};
     ArraySequence<int> arrSeq1(items1, 5);
-    ArraySequence<string> arrSeq2(items2, 5);
+    ArraySequence<std::string> arrSeq2(items2, 5);
     auto arrSeq = arrSeq1.Zip(&arrSeq2);
     auto [arrSeqNew1, arrSeqNew2] = ArraySequence<int>::Unzip(arrSeq);
     TEST_ASSERT_EQUAL(1, (*arrSeq)[0].first);
@@ -261,7 +260,7 @@ inline void test_list_decomposition(void) {
     TEST_ASSERT_EQUAL(3, (*listSeqSub)[1]);
     TEST_ASSERT_EQUAL(2, listSeq[1]);
     try {listSeqSub->Get(10);}
-    catch (const exception &e) {cout << "tests/test.hpp:392:test_list_decomposition:" << e.what() << endl;}
+    catch (const std::exception &e) {std::cout << "tests/test.hpp:392:test_list_decomposition:" << e.what() << std::endl;}
 }
 
 // Операции
@@ -291,7 +290,7 @@ inline void test_list_remove(void) {
     TEST_ASSERT_EQUAL(2, listSeq.GetFirst());
     TEST_ASSERT_EQUAL(4, listSeq.GetLast());
     try {listSeq.Remove(10);}
-    catch (const exception &e) {cout << "tests/test.hpp:397:test_list_remove:" << e.what() << endl;}
+    catch (const std::exception &e) {std::cout << "tests/test.hpp:397:test_list_remove:" << e.what() << std::endl;}
 }
 
 inline void test_list_insertat(void) {
@@ -300,7 +299,7 @@ inline void test_list_insertat(void) {
     listSeq.InsertAt(10, 2);
     TEST_ASSERT_EQUAL(10, listSeq.Get(2));
     try {listSeq.InsertAt(10, 10);}
-    catch (const exception &e) {cout << "tests/test.hpp:398:test_list_insertat:" << e.what() << endl;}
+    catch (const std::exception &e) {std::cout << "tests/test.hpp:398:test_list_insertat:" << e.what() << std::endl;}
 }
 
 inline void test_list_putat(void) {
@@ -312,7 +311,7 @@ inline void test_list_putat(void) {
     TEST_ASSERT_EQUAL(10, listSeq.Get(2));
     TEST_ASSERT_EQUAL(3, listSeq.Get(3));
     try {listSeq.PutAt(10, 10);}
-    catch (const exception &e) {cout << "tests/test.hpp:399:test_list_putat:" << e.what() << endl;}
+    catch (const std::exception &e) {std::cout << "tests/test.hpp:399:test_list_putat:" << e.what() << std::endl;}
 }
 
 inline void test_list_concat(void) {
@@ -353,9 +352,9 @@ inline void test_list_reduce(void) {
 
 inline void test_list_zip_unzip(void) {
     int items1[] = {1, 2, 3, 4, 5};
-    string items2[] = {"a", "b", "c", "d", "e"};
+    std::string items2[] = {"a", "b", "c", "d", "e"};
     ListSequence<int> listSeq1(items1, 5);
-    ListSequence<string> listSeq2(items2, 5);
+    ListSequence<std::string> listSeq2(items2, 5);
     auto listSeq = listSeq1.Zip(&listSeq2);
     auto [listSeqNew1, listSeqNew2] = ListSequence<int>::Unzip(listSeq);
     TEST_ASSERT_EQUAL(1, (*listSeq)[0].first);
