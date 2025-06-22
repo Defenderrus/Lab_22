@@ -18,22 +18,32 @@ class Sequence: public ICollection<T>, public IEnumerable<T> {
         // IEnumerator + IEnumerable
         class Iterator: public IEnumerator<T> {
             private:
-                Sequence<T> *sequence;
+                const Sequence<T> *sequence;
                 int index;
+                bool mode;
             public:
-                Iterator(Sequence<T> *other) {
+                Iterator(const Sequence<T> *other) {
                     sequence = other;
-                    index = -1;
+                    index = 0;
+                    mode = true;
                 }
                 T Current() override {
+                    if (mode || index >= sequence->GetLength()) {
+                        throw out_of_range("Неправильный индекс!");
+                    }
                     return sequence->Get(index);
                 }
                 void Reset() override {
-                    index = -1;
+                    index = 0;
+                    mode = true;
                 }
                 bool MoveNext() override {
+                    if (mode) {
+                        mode = false;
+                        return sequence->GetLength() > 0;
+                    }
                     index++;
-                    return (index >= sequence->GetLength()) ? false : true;
+                    return index < sequence->GetLength();
                 }
         };
         IEnumerator<T>* GetEnumerator() override {
