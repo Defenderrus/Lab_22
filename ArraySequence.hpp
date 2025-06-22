@@ -25,9 +25,10 @@ class ArraySequence: public Sequence<T> {
         T GetFirst() const override;
         T GetLast() const override;
         T Get(int index) const override;
+
+        // Перегрузка операторов
         T& operator[](int index) override;
         const T& operator[](int index) const override;
-        Sequence<T>* GetSubsequence(int startIndex, int endIndex) const override;
 
         // Операции
         Sequence<T>* Append(T item) override;
@@ -36,6 +37,7 @@ class ArraySequence: public Sequence<T> {
         Sequence<T>* InsertAt(T item, int index) override;
         Sequence<T>* PutAt(T item, int index) override;
         Sequence<T>* Concat(Sequence<T> *other) override;
+        Sequence<T>* GetSubsequence(int startIndex, int endIndex) const override;
 
         // Дополнительные операции
         template <typename U>
@@ -90,6 +92,7 @@ T ArraySequence<T>::Get(int index) const {
     return this->array->Get(index);
 }
 
+// Перегрузка операторов
 template <typename T>
 T& ArraySequence<T>::operator[](int index) {
     if (index >= this->array->GetSize() || index < 0) {
@@ -104,18 +107,6 @@ const T& ArraySequence<T>::operator[](int index) const {
         throw out_of_range("Некорректный индекс!");
     }
     return (*this->array)[index];
-}
-
-template <typename T>
-Sequence<T>* ArraySequence<T>::GetSubsequence(int startIndex, int endIndex) const {
-    if (endIndex >= this->array->GetSize() || startIndex < 0 || endIndex < startIndex) {
-        throw out_of_range("Некорректный индекс!");
-    }
-    DynamicArray<T> *newArray = new DynamicArray<T>(endIndex-startIndex+1);
-    for (int i = 0; i < endIndex-startIndex+1; i++) {
-        newArray->Set(i, this->array->Get(i+startIndex));
-    }
-    return new ArraySequence<T>(*newArray);
 }
 
 // Операции
@@ -197,6 +188,19 @@ Sequence<T>* ArraySequence<T>::Concat(Sequence<T> *other) {
 }
 
 template <typename T>
+Sequence<T>* ArraySequence<T>::GetSubsequence(int startIndex, int endIndex) const {
+    if (endIndex >= this->array->GetSize() || startIndex < 0 || endIndex < startIndex) {
+        throw out_of_range("Некорректный индекс!");
+    }
+    DynamicArray<T> *newArray = new DynamicArray<T>(endIndex-startIndex+1);
+    for (int i = 0; i < endIndex-startIndex+1; i++) {
+        newArray->Set(i, this->array->Get(i+startIndex));
+    }
+    return new ArraySequence<T>(*newArray);
+}
+
+// Дополнительные операции
+template <typename T>
 template <typename U>
 Sequence<U>* ArraySequence<T>::Map(function<U(T)> func) {
     ArraySequence<U> *sequence = new ArraySequence<U>();
@@ -245,7 +249,6 @@ pair<Sequence<T>*, Sequence<U>*> ArraySequence<T>::Unzip(Sequence<pair<T, U>> *s
     }
     return make_pair(first, second);
 }
-
 
 template <typename T>
 class ImmutableArraySequence: public ArraySequence<T> {

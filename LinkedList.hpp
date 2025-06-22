@@ -1,8 +1,6 @@
 #ifndef LINKEDLIST_HPP
 #define LINKEDLIST_HPP
 
-using namespace std;
-
 
 template <typename T>
 class List {
@@ -14,7 +12,6 @@ class List {
             this->next = nullptr;
         }
 };
-
 
 template <typename T>
 class LinkedList {
@@ -34,9 +31,10 @@ class LinkedList {
         T GetFirst() const;
         T GetLast() const;
         T Get(int index) const;
+
+        // Перегрузка операторов
         T& operator[](int index);
         const T& operator[](int index) const;
-        LinkedList<T>* GetSubList(int startIndex, int endIndex) const;
 
         // Операции
         void Append(T item);
@@ -45,6 +43,7 @@ class LinkedList {
         void InsertAt(T item, int index);
         void PutAt(T item, int index);
         LinkedList<T>* Concat(LinkedList<T> *other);
+        LinkedList<T>* GetSubList(int startIndex, int endIndex) const;
 };
 
 // Создание объекта
@@ -116,6 +115,7 @@ T LinkedList<T>::Get(int index) const {
     return p->data;
 }
 
+// Перегрузка операторов
 template <typename T>
 T& LinkedList<T>::operator[](int index) {
     if (index >= this->size || index < 0) {
@@ -138,22 +138,6 @@ const T& LinkedList<T>::operator[](int index) const {
         p = p->next;
     }
     return p->data;
-}
-
-template <typename T>
-LinkedList<T>* LinkedList<T>::GetSubList(int startIndex, int endIndex) const {
-    if (endIndex >= this->size || startIndex < 0 || endIndex < startIndex) {
-        throw out_of_range("Некорректный индекс!");
-    }
-    LinkedList<T>* newList = new LinkedList<T>();
-    List<T> *p = this->start;
-    for (int i = 0; i <= endIndex; i++) {
-        if (i >= startIndex) {
-            newList->Append(p->data);
-        }
-        p = p->next;
-    }
-    return newList;
 }
 
 // Операции
@@ -236,6 +220,22 @@ LinkedList<T>* LinkedList<T>::Concat(LinkedList<T>* other) {
         p = p->next;
     }
     return this;
+}
+
+template <typename T>
+LinkedList<T>* LinkedList<T>::GetSubList(int startIndex, int endIndex) const {
+    if (endIndex >= this->size || startIndex < 0 || endIndex < startIndex) {
+        throw out_of_range("Некорректный индекс!");
+    }
+    LinkedList<T>* newList = new LinkedList<T>();
+    List<T> *p = this->start;
+    for (int i = 0; i <= endIndex; i++) {
+        if (i >= startIndex) {
+            newList->Append(p->data);
+        }
+        p = p->next;
+    }
+    return newList;
 }
 
 #endif // LINKEDLIST_HPP

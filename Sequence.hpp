@@ -1,15 +1,45 @@
 #ifndef SEQUENCE_HPP
 #define SEQUENCE_HPP
 
-#include <utility>
 #include <functional>
-using namespace std;
+#include "ICollection.hpp"
+#include "Enumerator.hpp"
 
 
 template <typename T>
-class Sequence {
+class Sequence: public ICollection<T>, public IEnumerable<T> {
     public:
         virtual ~Sequence() = default;
+
+        // ICollection
+        T Get(size_t index) const override {return this->Get(static_cast<int>(index));}
+        size_t GetCount() const override {return static_cast<size_t>(this->GetLength());}
+
+        // IEnumerator + IEnumerable
+        class Iterator: public IEnumerator<T> {
+            private:
+                Sequence<T> *sequence;
+                int index;
+            public:
+                Iterator(Sequence<T> *other) {
+                    sequence = other;
+                    index = -1;
+                }
+                T Current() override {
+                    return sequence->Get(index);
+                }
+                void Reset() override {
+                    index = -1;
+                }
+                bool MoveNext() override {
+                    index++;
+                    return (index >= sequence->GetLength()) ? false : true;
+                }
+        };
+        IEnumerator<T>* GetEnumerator() override {
+            return new Iterator(this);
+        }
+
         // Декомпозиция
         virtual int GetLength() const = 0;
         virtual T GetFirst() const = 0;
@@ -18,6 +48,7 @@ class Sequence {
         virtual T& operator[](int index) = 0;
         virtual const T& operator[](int index) const = 0;
         virtual Sequence<T>* GetSubsequence(int startIndex, int endIndex) const = 0;
+
         // Операции
         virtual Sequence<T>* Append(T item) = 0;
         virtual Sequence<T>* Prepend(T item) = 0;

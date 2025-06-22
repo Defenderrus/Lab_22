@@ -1,8 +1,6 @@
 #ifndef DYNAMICARRAY_HPP
 #define DYNAMICARRAY_HPP
 
-using namespace std;
-
 
 template <typename T>
 class DynamicArray {
@@ -20,6 +18,8 @@ class DynamicArray {
         // Декомпозиция
         int GetSize() const;
         T Get(int index) const;
+
+        // Перегрузка операторов
         T& operator[](int index);
         const T& operator[](int index) const;
         
@@ -84,6 +84,7 @@ T DynamicArray<T>::Get(int index) const {
     return this->data[index];
 }
 
+// Перегрузка операторов
 template <typename T>
 T& DynamicArray<T>::operator[](int index) {
     if (index >= this->size || index < 0) {

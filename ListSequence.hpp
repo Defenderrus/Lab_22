@@ -25,9 +25,10 @@ class ListSequence: public Sequence<T> {
         T GetFirst() const override;
         T GetLast() const override;
         T Get(int index) const override;
+
+        // Перегрузка операторов
         T& operator[](int index) override;
         const T& operator[](int index) const override;
-        Sequence<T>* GetSubsequence(int startIndex, int endIndex) const override;
 
         // Операции
         Sequence<T>* Append(T item) override;
@@ -36,6 +37,7 @@ class ListSequence: public Sequence<T> {
         Sequence<T>* InsertAt(T item, int index) override;
         Sequence<T>* PutAt(T item, int index) override;
         Sequence<T>* Concat(Sequence<T> *other) override;
+        Sequence<T>* GetSubsequence(int startIndex, int endIndex) const override;
 
         // Дополнительные операции
         template <typename U>
@@ -90,6 +92,7 @@ T ListSequence<T>::Get(int index) const {
     return this->list->Get(index);
 }
 
+// Перегрузка операторов
 template <typename T>
 T& ListSequence<T>::operator[](int index) {
     if (index >= this->list->GetLength() || index < 0) {
@@ -104,12 +107,6 @@ const T& ListSequence<T>::operator[](int index) const {
         throw out_of_range("Некорректный индекс!");
     }
     return (*this->list)[index];
-}
-
-template <typename T>
-Sequence<T>* ListSequence<T>::GetSubsequence(int startIndex, int endIndex) const {
-    ListSequence<T> *newList = new ListSequence<T>(*this->list->GetSubList(startIndex, endIndex));
-    return newList;
 }
 
 // Операции
@@ -157,6 +154,13 @@ Sequence<T>* ListSequence<T>::Concat(Sequence<T> *other) {
     return newSequence;
 }
 
+template <typename T>
+Sequence<T>* ListSequence<T>::GetSubsequence(int startIndex, int endIndex) const {
+    ListSequence<T> *newList = new ListSequence<T>(*this->list->GetSubList(startIndex, endIndex));
+    return newList;
+}
+
+// Дополнительные операции
 template <typename T>
 template <typename U>
 Sequence<U>* ListSequence<T>::Map(function<U(T)> func) {
@@ -206,7 +210,6 @@ pair<Sequence<T>*, Sequence<U>*> ListSequence<T>::Unzip(Sequence<pair<T, U>> *se
     }
     return make_pair(first, second);
 }
-
 
 template <typename T>
 class ImmutableListSequence: public ListSequence<T> {
